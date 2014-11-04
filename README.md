@@ -2,6 +2,7 @@ num2words
 =========
 
 [![Build Status](https://drone.io/github.com/divan/num2words/status.png)](https://drone.io/github.com/divan/num2words/latest)
+[![GoDoc](https://godoc.org/github.com/divan/num2words?status.svg)](https://godoc.org/github.com/divan/num2words)
 
 num2words - Numbers to words converter in Go (Golang)
 

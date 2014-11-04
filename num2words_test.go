@@ -1,8 +1,8 @@
-package num2word
+package num2words
 
 import (
-	. "github.com/smartystreets/goconvey/convey"
 	"testing"
+	. "github.com/smartystreets/goconvey/convey"
 )
 
 func TestConvert(t *testing.T) {
@@ -44,4 +44,11 @@ func TestConvert(t *testing.T) {
 			So(Convert(-123), ShouldEqual, "minus one hundred and twenty three")
 		})
 	})
+}
+
+func ExampleConvert() {
+	var str string
+	str = Convert(17)   // outputs "seventeen"
+	str = Convert(1024) // outputs "one thousand and twenty four"
+	str = Convert(-123) // outputs "minus one hundred and twenty three"
 }

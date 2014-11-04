@@ -1,4 +1,7 @@
-package num2word
+/*
+num2words implements numbers to words converter.
+*/
+package num2words
 
 import "math"
 
@@ -21,8 +24,8 @@ var _scaleNumbers = []string{
 
 type digitGroup int
 
-// Number2Word converts number into the words representation.
-func Convert(number int) (combined string) {
+// Convert converts number into the words representation.
+func Convert(number int) string {
 	// Zero rule
 	if number == 0 {
 		return _smallNumbers[0]
@@ -42,7 +45,7 @@ func Convert(number int) (combined string) {
 	for i := 0; i < groups_number; i++ {
 		textGroup[i] = digitGroup2Text(groups[i])
 	}
-	combined = textGroup[0]
+	combined := textGroup[0]
 	appendAnd := groups[0] > 0 && groups[0] < 100
 
 	for i := 1; i < groups_number; i++ {
