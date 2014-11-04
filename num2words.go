@@ -3,7 +3,7 @@ package num2word
 import "math"
 
 // how many digit's groups to process
-const GROUPS_NUMBER int = 4
+const groups_number int = 4
 
 var _smallNumbers = []string{
 	"zero", "one", "two", "three", "four",
@@ -29,23 +29,23 @@ func Convert(number int) (combined string) {
 	}
 
 	// Divide into three-digits group
-	var groups [GROUPS_NUMBER]digitGroup
+	var groups [groups_number]digitGroup
 	positive := math.Abs(float64(number))
 
 	// Form three-digit groups
-	for i := 0; i < GROUPS_NUMBER; i++ {
+	for i := 0; i < groups_number; i++ {
 		groups[i] = digitGroup(math.Mod(positive, 1000))
 		positive /= 1000
 	}
 
-	var textGroup [GROUPS_NUMBER]string
-	for i := 0; i < GROUPS_NUMBER; i++ {
+	var textGroup [groups_number]string
+	for i := 0; i < groups_number; i++ {
 		textGroup[i] = digitGroup2Text(groups[i])
 	}
 	combined = textGroup[0]
 	appendAnd := groups[0] > 0 && groups[0] < 100
 
-	for i := 1; i < GROUPS_NUMBER; i++ {
+	for i := 1; i < groups_number; i++ {
 		if groups[i] != 0 {
 			prefix := textGroup[i] + " " + _scaleNumbers[i]
 
