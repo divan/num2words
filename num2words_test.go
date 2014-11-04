@@ -51,4 +51,5 @@ func ExampleConvert() {
 	str = Convert(17)   // outputs "seventeen"
 	str = Convert(1024) // outputs "one thousand and twenty four"
 	str = Convert(-123) // outputs "minus one hundred and twenty three"
+	_ = str
 }
