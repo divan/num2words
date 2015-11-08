@@ -16,7 +16,7 @@ Convert number
 ```go
   str := num2words.Convert(17) // outputs "seventeen"
   ...
-  str := num2words.Convert(1024) // outputs "one thousand and twenty four"
+  str := num2words.Convert(1024) // outputs "one thousand twenty four"
   ...
-  str := num2words.Convert(-123) // outputs "minus one hundred and twenty three"
+  str := num2words.Convert(-123) // outputs "minus one hundred twenty three"
 ```

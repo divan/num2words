@@ -46,21 +46,14 @@ func Convert(number int) string {
 		textGroup[i] = digitGroup2Text(groups[i])
 	}
 	combined := textGroup[0]
-	appendAnd := groups[0] > 0 && groups[0] < 100
 
 	for i := 1; i < groups_number; i++ {
 		if groups[i] != 0 {
 			prefix := textGroup[i] + " " + _scaleNumbers[i]
 
 			if len(combined) != 0 {
-				if appendAnd {
-					prefix += " and "
-				} else {
-					prefix += ", "
-				}
+				prefix += " "
 			}
-
-			appendAnd = false
 
 			combined = prefix + combined
 		}
@@ -85,7 +78,7 @@ func digitGroup2Text(group digitGroup) (ret string) {
 		ret += _smallNumbers[hundreds] + " hundred"
 
 		if tensUnits != 0 {
-			ret += " and "
+			ret += " "
 		}
 	}
 

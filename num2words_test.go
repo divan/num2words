@@ -1,8 +1,8 @@
 package num2words
 
 import (
-	"testing"
 	. "github.com/smartystreets/goconvey/convey"
+	"testing"
 )
 
 func TestConvert(t *testing.T) {
@@ -36,12 +36,12 @@ func TestConvert(t *testing.T) {
 			So(Convert(100), ShouldEqual, "one hundred")
 			So(Convert(200), ShouldEqual, "two hundred")
 			So(Convert(500), ShouldEqual, "five hundred")
-			So(Convert(123), ShouldEqual, "one hundred and twenty three")
-			So(Convert(666), ShouldEqual, "six hundred and sixty six")
-			So(Convert(1024), ShouldEqual, "one thousand and twenty four")
+			So(Convert(123), ShouldEqual, "one hundred twenty three")
+			So(Convert(666), ShouldEqual, "six hundred sixty six")
+			So(Convert(1024), ShouldEqual, "one thousand twenty four")
 		})
 		Convey("Negative numbers should convert correclty", func() {
-			So(Convert(-123), ShouldEqual, "minus one hundred and twenty three")
+			So(Convert(-123), ShouldEqual, "minus one hundred twenty three")
 		})
 	})
 }
@@ -49,7 +49,7 @@ func TestConvert(t *testing.T) {
 func ExampleConvert() {
 	var str string
 	str = Convert(17)   // outputs "seventeen"
-	str = Convert(1024) // outputs "one thousand and twenty four"
-	str = Convert(-123) // outputs "minus one hundred and twenty three"
+	str = Convert(1024) // outputs "one thousand twenty four"
+	str = Convert(-123) // outputs "minus one hundred twenty three"
 	_ = str
 }
