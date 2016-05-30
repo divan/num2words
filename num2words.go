@@ -52,7 +52,7 @@ func Convert(number int) string {
 			prefix := textGroup[i] + " " + _scaleNumbers[i]
 
 			if len(combined) != 0 {
-				prefix += " "
+				prefix += " and "
 			}
 
 			combined = prefix + combined
@@ -86,12 +86,18 @@ func digitGroup2Text(group digitGroup) (ret string) {
 	units := intMod(tensUnits, 10)
 
 	if tens >= 2 {
+		if hundreds != 0 {
+			ret += "and "
+		}
 		ret += _tens[tens]
 
 		if units != 0 {
-			ret += " " + _smallNumbers[units]
+			ret += "-" + _smallNumbers[units]
 		}
 	} else if tensUnits != 0 {
+		if hundreds != 0 {
+			ret += "and "
+		}
 		ret += _smallNumbers[tensUnits]
 	}
 

@@ -1,8 +1,9 @@
 package num2words
 
 import (
-	. "github.com/smartystreets/goconvey/convey"
 	"testing"
+
+	. "github.com/smartystreets/goconvey/convey"
 )
 
 func TestConvert(t *testing.T) {
@@ -25,23 +26,24 @@ func TestConvert(t *testing.T) {
 			So(Convert(90), ShouldEqual, "ninety")
 		})
 		Convey("Combined numbers should convert correctly", func() {
-			So(Convert(21), ShouldEqual, "twenty one")
-			So(Convert(34), ShouldEqual, "thirty four")
-			So(Convert(49), ShouldEqual, "forty nine")
-			So(Convert(53), ShouldEqual, "fifty three")
-			So(Convert(68), ShouldEqual, "sixty eight")
-			So(Convert(99), ShouldEqual, "ninety nine")
+			So(Convert(21), ShouldEqual, "twenty-one")
+			So(Convert(34), ShouldEqual, "thirty-four")
+			So(Convert(49), ShouldEqual, "forty-nine")
+			So(Convert(53), ShouldEqual, "fifty-three")
+			So(Convert(68), ShouldEqual, "sixty-eight")
+			So(Convert(99), ShouldEqual, "ninety-nine")
 		})
 		Convey("Big numbers should convert correctly", func() {
 			So(Convert(100), ShouldEqual, "one hundred")
 			So(Convert(200), ShouldEqual, "two hundred")
 			So(Convert(500), ShouldEqual, "five hundred")
-			So(Convert(123), ShouldEqual, "one hundred twenty three")
-			So(Convert(666), ShouldEqual, "six hundred sixty six")
-			So(Convert(1024), ShouldEqual, "one thousand twenty four")
+			So(Convert(115), ShouldEqual, "one hundred and fifteen")
+			So(Convert(123), ShouldEqual, "one hundred and twenty-three")
+			So(Convert(666), ShouldEqual, "six hundred and sixty-six")
+			So(Convert(1024), ShouldEqual, "one thousand and twenty-four")
 		})
 		Convey("Negative numbers should convert correclty", func() {
-			So(Convert(-123), ShouldEqual, "minus one hundred twenty three")
+			So(Convert(-123), ShouldEqual, "minus one hundred and twenty-three")
 		})
 	})
 }
@@ -49,7 +51,9 @@ func TestConvert(t *testing.T) {
 func ExampleConvert() {
 	var str string
 	str = Convert(17)   // outputs "seventeen"
-	str = Convert(1024) // outputs "one thousand twenty four"
-	str = Convert(-123) // outputs "minus one hundred twenty three"
+	str = Convert(115)  // outputs "one hundred and fifteen"
+	str = Convert(1024) // outputs "one thousand and twenty-four"
+	str = Convert(1324) // outputs "one thousand three hundred and twenty-four"
+	str = Convert(-123) // outputs "minus one hundred and twenty-three"
 	_ = str
 }
