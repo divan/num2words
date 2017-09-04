@@ -1,11 +1,16 @@
-package num2words
+package num2words_test
 
 import (
-	. "github.com/smartystreets/goconvey/convey"
+	"fmt"
 	"testing"
+
+	"github.com/divan/num2words"
+	. "github.com/smartystreets/goconvey/convey"
 )
 
 func TestConvert(t *testing.T) {
+	Convert := num2words.Convert
+	ConvertAnd := num2words.ConvertAnd
 	Convey("Should convert correctly", t, func() {
 		Convey("Small numbers should convert correctly", func() {
 			So(Convert(0), ShouldEqual, "zero")
@@ -52,11 +57,17 @@ func TestConvert(t *testing.T) {
 }
 
 func ExampleConvert() {
-	var str string
-	str = Convert(17)     // outputs "seventeen"
-	str = Convert(1024)   // outputs "one thousand twenty four"
-	str = Convert(-123)   // outputs "minus one hundred twenty three"
-	str = ConvertAnd(123) // outputs "one hundred and twenty three"
-	str = ConvertAnd(514) // outputs "five hundreds and fourteen"
-	_ = str
+	fmt.Println(num2words.Convert(11))
+	fmt.Println(num2words.Convert(123))
+	fmt.Println(num2words.Convert(-99))
+	// Output: eleven
+	// one hundred twenty three
+	// minus ninety nine
+}
+
+func ExampleConvertAnd() {
+	fmt.Println(num2words.ConvertAnd(123))
+	fmt.Println(num2words.ConvertAnd(514))
+	// Output: one hundred and twenty three
+	// five hundreds and fourteen
 }
