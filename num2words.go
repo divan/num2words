@@ -1,12 +1,10 @@
-/*
-num2words implements numbers to words converter.
-*/
+// Package num2words implements numbers to words converter.
 package num2words
 
 import "math"
 
 // how many digit's groups to process
-const groups_number int = 4
+const groupsNumber int = 4
 
 var _smallNumbers = []string{
 	"zero", "one", "two", "three", "four",
@@ -42,23 +40,23 @@ func convert(number int, useAnd bool) string {
 	}
 
 	// Divide into three-digits group
-	var groups [groups_number]digitGroup
+	var groups [groupsNumber]digitGroup
 	positive := math.Abs(float64(number))
 
 	// Form three-digit groups
-	for i := 0; i < groups_number; i++ {
+	for i := 0; i < groupsNumber; i++ {
 		groups[i] = digitGroup(math.Mod(positive, 1000))
 		positive /= 1000
 	}
 
-	var textGroup [groups_number]string
-	for i := 0; i < groups_number; i++ {
+	var textGroup [groupsNumber]string
+	for i := 0; i < groupsNumber; i++ {
 		textGroup[i] = digitGroup2Text(groups[i], useAnd)
 	}
 	combined := textGroup[0]
 	and := useAnd && (groups[0] > 0 && groups[0] < 100)
 
-	for i := 1; i < groups_number; i++ {
+	for i := 1; i < groupsNumber; i++ {
 		if groups[i] != 0 {
 			prefix := textGroup[i] + " " + _scaleNumbers[i]
 
