@@ -20,3 +20,10 @@ Convert number
   ...
   str := num2words.Convert(-123) // outputs "minus one hundred twenty three"
 ```
+
+Convert number with " and " between number groups:
+```go
+  str := num2words.ConvertAnd(514) // outputs "five hundred and fourteen"
+  ...
+  str := num2words.ConvertAnd(123) // outputs "one hundred and twenty three"
+```

@@ -43,13 +43,20 @@ func TestConvert(t *testing.T) {
 		Convey("Negative numbers should convert correclty", func() {
 			So(Convert(-123), ShouldEqual, "minus one hundred twenty three")
 		})
+		Convey("Convert with 'and' should convert correclty", func() {
+			So(ConvertAnd(123), ShouldEqual, "one hundred and twenty three")
+			So(ConvertAnd(514), ShouldEqual, "five hundred and fourteen")
+			So(ConvertAnd(1111), ShouldEqual, "one thousand one hundred and eleven")
+		})
 	})
 }
 
 func ExampleConvert() {
 	var str string
-	str = Convert(17)   // outputs "seventeen"
-	str = Convert(1024) // outputs "one thousand twenty four"
-	str = Convert(-123) // outputs "minus one hundred twenty three"
+	str = Convert(17)     // outputs "seventeen"
+	str = Convert(1024)   // outputs "one thousand twenty four"
+	str = Convert(-123)   // outputs "minus one hundred twenty three"
+	str = ConvertAnd(123) // outputs "one hundred and twenty three"
+	str = ConvertAnd(514) // outputs "five hundreds and fourteen"
 	_ = str
 }
