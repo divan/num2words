@@ -100,7 +100,7 @@ func digitGroup2Text(group digitGroup, useAnd bool) (ret string) {
 		ret += _tens[tens]
 
 		if units != 0 {
-			ret += " " + _smallNumbers[units]
+			ret += "-" + _smallNumbers[units]
 		}
 	} else if tensUnits != 0 {
 		ret += _smallNumbers[tensUnits]
