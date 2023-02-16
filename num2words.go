@@ -1,5 +1,5 @@
 // Package num2words implements numbers to words converter.
-package num2words
+package main
 
 import "math"
 
