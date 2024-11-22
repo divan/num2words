@@ -71,3 +71,67 @@ func ExampleConvertAnd() {
 	// Output: one hundred and twenty-three
 	// five hundred and fourteen
 }
+
+func TestConvertFloat(t *testing.T) {
+	ConvertFloat := num2words.ConvertFloat
+	ConvertFloatAnd := num2words.ConvertFloatAnd
+
+	Convey("Should convert floats correctly", t, func() {
+		Convey("Basic float numbers should convert correctly", func() {
+			So(ConvertFloat(123.45, 2), ShouldEqual, "one hundred twenty-three point forty-five")
+			So(ConvertFloat(123.45, 1), ShouldEqual, "one hundred twenty-three point four")
+			So(ConvertFloat(-123.45, 2), ShouldEqual, "minus one hundred twenty-three point forty-five")
+			So(ConvertFloat(0.42, 2), ShouldEqual, "zero point forty-two")
+		})
+
+		Convey("Whole numbers should convert without decimal part", func() {
+			So(ConvertFloat(1.0, 2), ShouldEqual, "one")
+			So(ConvertFloat(100.0, 2), ShouldEqual, "one hundred")
+			So(ConvertFloat(-50.0, 2), ShouldEqual, "minus fifty")
+		})
+
+		Convey("Auto precision should handle trailing zeros correctly", func() {
+			So(ConvertFloat(1.50, num2words.AutoPrecision), ShouldEqual, "one point five")
+			So(ConvertFloat(1.500, num2words.AutoPrecision), ShouldEqual, "one point five")
+			So(ConvertFloat(100.203, num2words.AutoPrecision), ShouldEqual, "one hundred point two hundred three")
+		})
+
+		Convey("Zero values should convert correctly", func() {
+			So(ConvertFloat(0.0, 2), ShouldEqual, "zero")
+			So(ConvertFloat(0.42, 2), ShouldEqual, "zero point forty-two")
+			So(ConvertFloat(-0.42, 2), ShouldEqual, "minus zero point forty-two")
+		})
+	})
+
+	Convey("Should convert floats with 'and' correctly", t, func() {
+		Convey("Basic float numbers should convert correctly with 'and'", func() {
+			So(ConvertFloatAnd(123.45, 2), ShouldEqual, "one hundred and twenty-three point forty-five")
+			So(ConvertFloatAnd(123.45, 1), ShouldEqual, "one hundred and twenty-three point four")
+			So(ConvertFloatAnd(-123.45, 2), ShouldEqual, "minus one hundred and twenty-three point forty-five")
+		})
+
+		Convey("Auto precision should work with 'and'", func() {
+			So(ConvertFloatAnd(1.50, num2words.AutoPrecision), ShouldEqual, "one point five")
+			So(ConvertFloatAnd(100.203, num2words.AutoPrecision), ShouldEqual, "one hundred point two hundred and three")
+			So(ConvertFloatAnd(1234.5678, num2words.AutoPrecision), ShouldEqual, "one thousand two hundred and thirty-four point five thousand six hundred and seventy-eight")
+		})
+	})
+}
+
+func ExampleConvertFloat() {
+	fmt.Println(num2words.ConvertFloat(123.45, 2))
+	fmt.Println(num2words.ConvertFloat(-0.42, 2))
+	fmt.Println(num2words.ConvertFloat(1.50, num2words.AutoPrecision))
+	// Output:
+	// one hundred twenty-three point forty-five
+	// minus zero point forty-two
+	// one point five
+}
+
+func ExampleConvertFloatAnd() {
+	fmt.Println(num2words.ConvertFloatAnd(123.45, 2))
+	fmt.Println(num2words.ConvertFloatAnd(1234.5678, 4))
+	// Output:
+	// one hundred and twenty-three point forty-five
+	// one thousand two hundred and thirty-four point five thousand six hundred and seventy-eight
+}
