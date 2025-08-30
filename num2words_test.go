@@ -7,14 +7,14 @@ import (
 func TestConvertFloat(t *testing.T) {
 	testCases := []struct {
 		number     float64
-		precision  int
+		precision  Precision
 		want       string
 	}{
 		{123.45, 2, "one hundred twenty-three point forty-five"},
 		{123.45, 1, "one hundred twenty-three point four"},
 		{-123.45, 2, "minus one hundred twenty-three point forty-five"},
 		{0.42, 2, "zero point forty-two"},
-		{3.14, 2, "three point one four"}, // Added test case for "3.14"
+		{3.14, 2, "three point fourteen"}, // Added test case for "3.14"
 	}
 
 	for _, tc := range testCases {
@@ -28,14 +28,14 @@ func TestConvertFloat(t *testing.T) {
 func TestConvertFloatAnd(t *testing.T) {
 	testCases := []struct {
 		number     float64
-		precision  int
+		precision  Precision
 		want       string
 	}{
 		{123.45, 2, "one hundred and twenty-three point forty-five"},
 		{123.45, 1, "one hundred and twenty-three point four"},
 		{-123.45, 2, "minus one hundred and twenty-three point forty-five"},
 		{0.42, 2, "zero point forty-two"},
-		{3.14, 2, "three point one four"}, // Added test case for "3.14"
+		{3.14, 2, "three point fourteen"}, // Added test case for "3.14"
 	}
 
 	for _, tc := range testCases {

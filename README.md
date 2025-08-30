@@ -27,3 +27,36 @@ Convert number with " and " between number groups:
   ...
   str := num2words.ConvertAnd(123) // outputs "one hundred and twenty three"
 ```
+
+## Language Support
+
+Ukrainian language support with gender agreement and noun forms:
+
+```go
+  str, _ := num2words.ConvertLang(42, "uk") // outputs "сорок два"
+  str, _ := num2words.ConvertLang(42, "en") // outputs "forty-two"
+```
+
+Direct Ukrainian API with advanced features:
+
+```go
+  import "github.com/divan/num2words/lang/ukrainian"
+  
+  str := ukrainian.Convert(42) // outputs "сорок два"
+  
+  // Gender agreement (masculine/feminine/neuter)
+  str := ukrainian.ConvertWithOptions(1, ukrainian.Options{
+    Gender: ukrainian.Feminine,
+  }) // outputs "одна"
+  
+  // With noun forms (automatically handles singular/plural/genitive)
+  str := ukrainian.ConvertWithOptions(2, ukrainian.Options{
+    Gender: ukrainian.Feminine,
+    WithNoun: true,
+    NounForms: &ukrainian.NounForms{
+      Singular: "гривня",
+      NominativePlural: "гривні", 
+      GenitivePlural: "гривень",
+    },
+  }) // outputs "дві гривні"
+```

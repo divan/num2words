@@ -1,7 +1,12 @@
 // Package num2words implements numbers to words converter.
 package num2words
 
-import "math"
+import (
+	"fmt"
+	"math"
+
+	"github.com/divan/num2words/lang/ukrainian"
+)
 
 // how many digit's groups to process
 const groupsNumber int = 4
@@ -116,4 +121,28 @@ func separator(useAnd bool) string {
 		return " and "
 	}
 	return " "
+}
+
+// ConvertLang converts number into words for the specified language
+func ConvertLang(number int, lang string) (string, error) {
+	switch lang {
+	case "uk", "ukrainian":
+		return ukrainian.Convert(number), nil
+	case "en", "english", "":
+		return Convert(number), nil
+	default:
+		return "", fmt.Errorf("unsupported language: %s", lang)
+	}
+}
+
+// ConvertLangAnd converts number into words with "and" for the specified language  
+func ConvertLangAnd(number int, lang string) (string, error) {
+	switch lang {
+	case "uk", "ukrainian":
+		return ukrainian.ConvertAnd(number), nil
+	case "en", "english", "":
+		return ConvertAnd(number), nil
+	default:
+		return "", fmt.Errorf("unsupported language: %s", lang)
+	}
 }
