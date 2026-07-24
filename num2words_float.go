@@ -38,7 +38,7 @@ func convertFloat(number float64, precision Precision, useAnd bool) string {
 		if fraction == 0 {
 			return "zero"
 		}
-		return "minus " + result + handleDecimalPart(fraction, precision, useAnd)
+		return "minus " + result + handleDecimalPart(number, precision, useAnd)
 	}
 
 	result := convert(intPart, useAnd)
@@ -51,29 +51,63 @@ func convertFloat(number float64, precision Precision, useAnd bool) string {
 	}
 
 	if number < 0 {
-		return "minus " + result + handleDecimalPart(fraction, precision, useAnd)
+		return "minus " + result + handleDecimalPart(number, precision, useAnd)
 	}
-	return result + handleDecimalPart(fraction, precision, useAnd)
+	return result + handleDecimalPart(number, precision, useAnd)
 }
 
-func handleDecimalPart(fraction float64, precision Precision, useAnd bool) string {
-	var decimalDigits int
+func handleDecimalPart(number float64, precision Precision, useAnd bool) string {
+	// Derive the fractional digits from the canonical decimal STRING of the
+	// number, NOT from fraction*math.Pow10(n)+math.Trunc. The float remainder
+	// (math.Abs(number) - math.Trunc(math.Abs(number))) is frequently slightly
+	// BELOW the true decimal (e.g. 2.3 -> 0.29999999999999982), and crucially it
+	// is a DIFFERENT, more-degraded float64 than the nearest float64 to the
+	// true decimal fraction -- so even its shortest round-trip is
+	// "0.2999999999999998", and multiplying by 10^n + math.Trunc lands one
+	// digit low (ConvertFloat(2.3, ...) -> "two point two" instead of
+	// "two point three"). Formatting the FULL |number| instead yields the
+	// correct shortest round-trip ("2.3"), whose fractional digits are right.
+	abs := math.Abs(number)
+	var fracStr string
 	if precision == AutoPrecision {
-		// Remove trailing zeros automatically
-		decimalStr := fmt.Sprintf("%.9f", fraction)
-		decimalStr = strings.TrimRight(strings.TrimRight(decimalStr[2:], "0"), ".")
-		decimalDigits = len(decimalStr)
-		if decimalDigits == 0 {
-			return ""
-		}
-		fraction = fraction * math.Pow10(decimalDigits)
+		// Preserve the library's 9-digit auto-precision shape: format the
+		// fraction with %.9f and trim trailing zeros, but read the digits
+		// straight from the string instead of discarding it and recomputing
+		// via fraction*math.Pow10(decimalDigits)+math.Trunc.
+		fraction := abs - math.Trunc(abs)
+		decStr := fmt.Sprintf("%.9f", fraction)
+		// decStr starts with "0." for a fraction in [0, 1).
+		fracStr = strings.TrimRight(decStr[2:], "0")
 	} else {
-		decimalDigits = int(precision)
-		fraction = fraction * math.Pow10(decimalDigits)
+		// Format |number| with extra precision (n+10) so the IEEE-754
+		// representation noise -- which lives well beyond the requested
+		// precision -- is rounded away (for below-true-decimal values the
+		// trailing 9s carry up to the true digit; for above-true-decimal values
+		// the trailing 0s round down). Then TRUNCATE (not round) the result to
+		// the requested precision, matching the library's "Use Trunc to avoid
+		// any rounding" design. This recovers the correct fractional digits for
+		// inputs like 2.3 (-> "30" at prec2) while preserving the truncation
+		// behavior the existing tests encode (e.g. 123.45 at prec1 -> "four").
+		n := int(precision)
+		decStr := fmt.Sprintf("%.*f", n+10, abs)
+		if dot := strings.IndexByte(decStr, '.'); dot >= 0 {
+			fracStr = decStr[dot+1:]
+		} else {
+			fracStr = ""
+		}
+		if len(fracStr) > n {
+			fracStr = fracStr[:n]
+		}
 	}
 
-	// Use Trunc to avoid any rounding
-	decimalPart := int(math.Trunc(fraction))
+	if fracStr == "" {
+		return ""
+	}
+
+	var decimalPart int
+	if _, err := fmt.Sscanf(fracStr, "%d", &decimalPart); err != nil {
+		return ""
+	}
 	if decimalPart == 0 {
 		return ""
 	}
